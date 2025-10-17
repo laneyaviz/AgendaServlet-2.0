@@ -12,6 +12,12 @@
    <h1>Agenda de contatos</h1>
    <hr />
    <a href="cadastro.jsp">Cadastrar</a>
+   
+   <a href = "compromisso.jsp"> Compromissos</a>
+   
+   <a href = "Agenda.jsp"> Agenda</a>
+   
    <a href="consulta.jsp">Consultar</a>
+   
 </body>
 </html>
