@@ -10,14 +10,12 @@ import java.util.List;
  
 public class CompromissoDAO {
  
-    // --- Configurações de Conexão (ADAPTE AO SEU BANCO) ---
-    private static final String DRIVER = "com.mysql.cj.jdbc.Driver"; // Exemplo para MySQL
-    private static final String URL = "jdbc:mysql://localhost:3306/agendaweb"; // URL do seu banco
-    private static final String USER = "root"; // Seu usuário do banco
-    private static final String PASS = "suasenha"; // Sua senha do banco
+    private static final String DRIVER = "com.mysql.cj.jdbc.Driver"; // 
+    private static final String URL = "jdbc:mysql://localhost:3306/agendaweb"; 
+    private static final String USER = "root"; 
+    private static final String PASS = "root"; 
     // ----------------------------------------------------
  
-    // Método de Conexão Centralizado
     private Connection conectar() {
         Connection con = null;
         try {
@@ -30,13 +28,11 @@ public class CompromissoDAO {
         }
     }
  
-    // 1. CREATE (Salvar Novo Compromisso)
     public void salvarCompromisso(Compromisso c) {
         String sql = "INSERT INTO compromissos (descricao, data_hora, local) VALUES (?, ?, ?)";
         try (Connection con = conectar(); 
              PreparedStatement pst = con.prepareStatement(sql)) {
  
-            // Converção de Date para um formato aceito pelo SQL
             java.sql.Timestamp sqlDataHora = new java.sql.Timestamp(c.getHora().getTime());
  
             pst.setString(1, c.getDescricao());
@@ -48,7 +44,6 @@ public class CompromissoDAO {
         }
     }
  
-    // 2. READ (Listar Todos os Compromissos)
     public List<Compromisso> listarTodos() {
         List<Compromisso> lista = new ArrayList<>();
         String sql = "SELECT id, descricao, data_hora, local FROM compromissos ORDER BY data_hora";
@@ -61,7 +56,6 @@ public class CompromissoDAO {
                 c.setId(rs.getInt("id"));
                 c.setDescricao(rs.getString("descricao"));
                 c.setLocal(rs.getString("local"));
-                // Conversão de Timestamp SQL para Date Java
                 c.setHora(new java.util.Date(rs.getTimestamp("data_hora").getTime()));
                 lista.add(c);
             }
@@ -70,7 +64,6 @@ public class CompromissoDAO {
         }
         return lista;
     }
-    // 3. UPDATE (Atualizar Compromisso Existente)
     public void atualizarCompromisso(Compromisso c) {
         String sql = "UPDATE compromissos SET descricao=?, data_hora=?, local=? WHERE id=?";
         try (Connection con = conectar(); 
@@ -87,7 +80,6 @@ public class CompromissoDAO {
             e.printStackTrace();
         }
     }
-    // 4. DELETE (Deletar Compromisso pelo ID)
     public void deletarCompromisso(int id) {
         String sql = "DELETE FROM compromissos WHERE id=?";
         try (Connection con = conectar(); 
